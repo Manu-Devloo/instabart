@@ -1,5 +1,14 @@
 ---
 import IconX from '../icons/IconX.astro';
+import { getCurrentLanguage } from '../../utils/i18n.ts';
+
+// Import translation files
+import noTranslations from '../../locales/no.json';
+import enTranslations from '../../locales/en.json';
+
+const currentLang = getCurrentLanguage();
+const translations = currentLang === 'en' ? enTranslations : noTranslations;
+
 const { id, innerClass, outerClass, ...rest } = Astro.props;
 ---
 
@@ -16,7 +25,7 @@ const { id, innerClass, outerClass, ...rest } = Astro.props;
     <!-- Close button -->
     <button
       class="dialog-close absolute right-3 top-3 rounded-full p-2 text-gray-500 outline-4 outline-sky-400 hover:bg-gray-100 focus-visible:outline sm:top-4 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-300"
-      aria-label="Lukk"
+      aria-label={translations.navigation.close}
     >
       <IconX strokeWidth="1.8" size="32px" />
     </button>

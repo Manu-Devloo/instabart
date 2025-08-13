@@ -1,0 +1,77 @@
+{
+  "site": {
+    "title": "Instabart",
+    "taglines": [
+      "Cool NTNU services. Instant<strong>ly</strong>",
+      "Trondheim students' favorite since 1917!",
+      "All of NTNU gathered under one site!",
+      "Covers all your needs as an NTNU student... except coffee",
+      "Let the site pave the way through NTNU's lush IT jungle!",
+      "NTNU's IT services? Gotta know 'em all!",
+      "You and me, NTNU. You and me...",
+      "All the links you need... and a couple more",
+      "Don't get lost without the site!"
+    ]
+  },
+  "navigation": {
+    "settings": "Settings",
+    "about": "About Instabart",
+    "close": "Close"
+  },
+  "theme": {
+    "dark": "Dark",
+    "light": "Light"
+  },
+  "cards": {
+    "blackboard": "Blackboard",
+    "email": "Email",
+    "schedule": "Schedule",
+    "office365": "Office 365",
+    "studentweb": "Student Web",
+    "roomReservation": "Book Room",
+    "map": "Campus Map",
+    "printing": "Printing",
+    "literatureSearch": "Literature Search",
+    "pdf": "Edit PDF",
+    "dictionary": "Dictionaries",
+    "food": "Food",
+    "exercise": "Exercise"
+  },
+  "about": {
+    "title": "About Instabart",
+    "whatIs": {
+      "title": "What is Instabart?",
+      "description1": "Instabart is a site for you who are a student in Trondheim.",
+      "description2": "The site contains direct links to various NTNU services. Some you'll need daily, others will come in handy once in a while - we recommend that you check out all of them."
+    },
+    "whoMade": {
+      "title": "Who's behind the site?",
+      "description": "Instabart is made by {authorLink}. In short, Morten is a former NTNU student, pun enthusiast and completely unable to grow a proper beard... ironically enough."
+    },
+    "feedback": {
+      "title": "Something bothering you?",
+      "description": "Got something on your mind? Send an email to {emailLink} or {githubLink}."
+    },
+    "links": {
+      "author": "Morten Vaale Noddeland",
+      "email": "morten@noddeland.no",
+      "github": "check out the code on Github"
+    }
+  },
+  "schedule": {
+    "dialog": {
+      "title": "Remember calendar name?",
+      "description": "By remembering your calendar name, you'll be taken straight to your own schedule instead of the front page.",
+      "placeholder": "Calendar name",
+      "accept": "Yes, please!",
+      "decline": "No, take me to the front page",
+      "help": "Psst! If you change your mind, you can always change your choice by clicking on {settingsIcon} settings at the bottom right.",
+      "validation": "Please fill in calendar name"
+    }
+  },
+  "language": {
+    "label": "Language",
+    "norwegian": "Norsk",
+    "english": "English"
+  }
+}

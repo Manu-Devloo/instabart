@@ -3,12 +3,28 @@ import Dialog from '../components/dialog/Dialog.astro';
 import IconEnvelope from '../components/icons/IconEnvelope.astro';
 import IconQuestionMark from '../components/icons/IconQuestionMark.astro';
 import IconUser from '../components/icons/IconUser.astro';
-import Link from '../components/Link.astro';
+import { getCurrentLanguage } from '../utils/i18n.ts';
+
+// Import translation files
+import noTranslations from '../locales/no.json';
+import enTranslations from '../locales/en.json';
+
+const currentLang = getCurrentLanguage();
+const translations = currentLang === 'en' ? enTranslations : noTranslations;
+
+// Helper function to replace placeholders in text
+function replacePlaceholders(text: string, replacements: Record<string, string>): string {
+  let result = text;
+  for (const [key, value] of Object.entries(replacements)) {
+    result = result.replace(`{${key}}`, value);
+  }
+  return result;
+}
 ---
 
 <Dialog id="about-dialog" outerClass="max-w-[550px]" innerClass="sm:pl-8">
   <h2 class="mt-1 text-2xl font-bold sm:mt-0 sm:text-3xl dark:text-slate-200">
-    Om Instabart
+    {translations.about.title}
   </h2>
 
   <hr
@@ -20,15 +36,13 @@ import Link from '../components/Link.astro';
     />
     <div>
       <h3 class="mb-1 text-xl font-bold text-gray-900 dark:text-slate-200">
-        Hva er Instabart?
+        {translations.about.whatIs.title}
       </h3>
       <p class="mb-3 text-gray-700 dark:text-slate-400">
-        Instabart er en side for deg som er student i bartebyen.
+        {translations.about.whatIs.description1}
       </p>
       <p class="mb-6 text-gray-700 sm:mb-8 dark:text-slate-400">
-        Siden inneholder direktelenker til ulike NTNU-tjenester. Noen vil du
-        trenge daglig, andre vil komme til nytte en gang iblant - vi anbartfaler
-        at du sjekker ut alle.
+        {translations.about.whatIs.description2}
       </p>
     </div>
   </div>
@@ -39,14 +53,12 @@ import Link from '../components/Link.astro';
     />
     <div>
       <h3 class="mb-1 text-xl font-bold text-gray-900 dark:text-slate-200">
-        Hvem skjuler seg bak barten?
+        {translations.about.whoMade.title}
       </h3>
       <p class="mb-6 text-gray-700 sm:mb-8 dark:text-slate-400">
-        Instabart er laget av <Link id="mvn-link" href="https://mvn.no"
-          >Morten Vaale Noddeland</Link
-        >. Kort oppsummert er Morten en tidligere NTNU-student,
-        ordspillfanatiker og fullstendig ute av stand til å gro en ordentlig
-        bart… ironisk nok.
+        <Fragment set:html={replacePlaceholders(translations.about.whoMade.description, {
+          authorLink: `<a href="https://mvn.no" id="mvn-link" class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">${translations.about.links.author}</a>`
+        })} />
       </p>
     </div>
   </div>
@@ -57,17 +69,13 @@ import Link from '../components/Link.astro';
     />
     <div>
       <h3 class="mb-1 text-xl font-bold text-gray-900 dark:text-slate-200">
-        Rykker det i barten?
+        {translations.about.feedback.title}
       </h3>
       <p class="text-gray-700 dark:text-slate-400">
-        Har du noe på hjertet? Send en e-post til <Link
-          id="email-link"
-          href="mailto:morten@noddeland.no">morten@noddeland.no</Link
-        > eller <Link
-          id="github-link"
-          href="https://github.com/mortnod/instabart"
-          >sjekk ut koden på Github</Link
-        >.
+        <Fragment set:html={replacePlaceholders(translations.about.feedback.description, {
+          emailLink: `<a href="mailto:${translations.about.links.email}" id="email-link" class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">${translations.about.links.email}</a>`,
+          githubLink: `<a href="https://github.com/mortnod/instabart" id="github-link" class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">${translations.about.links.github}</a>`
+        })} />
       </p>
     </div>
   </div>

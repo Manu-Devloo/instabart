@@ -12,14 +12,21 @@ import IconMicrosoft365 from '../components/icons/IconMicrosoft365.astro';
 import IconPaperPlane from '../components/icons/IconPaperPlane.astro';
 import IconPdf from '../components/icons/IconPdf.astro';
 import IconPrinter from '../components/icons/IconPrinter.astro';
-import IconUtensils from '../components/icons/IconUtensils.astro';
 
 import ScheduleCard from './ScheduleCard.astro';
+import { getCurrentLanguage } from '../utils/i18n.ts';
+
+// Import translation files
+import noTranslations from '../locales/no.json';
+import enTranslations from '../locales/en.json';
+
+const currentLang = getCurrentLanguage();
+const translations = currentLang === 'en' ? enTranslations : noTranslations;
 ---
 
 <Card
   href="https://innsida.ntnu.no/blackboard"
-  title="Blackboard"
+  title={translations.cards.blackboard}
   id="blackboard"
 >
   <IconBlackboard />
@@ -27,7 +34,7 @@ import ScheduleCard from './ScheduleCard.astro';
 
 <Card
   href="https://outlook.office365.com/owa/?realm=ntnu.no#path=/mail"
-  title="E-post"
+  title={translations.cards.email}
   id="email"
 >
   <IconPaperPlane />
@@ -35,13 +42,13 @@ import ScheduleCard from './ScheduleCard.astro';
 
 <ScheduleCard />
 
-<Card href="http://innsida.ntnu.no/o365" title="Office 365" id="microsoft365">
+<Card href="http://innsida.ntnu.no/o365" title={translations.cards.office365} id="microsoft365">
   <IconMicrosoft365 />
 </Card>
 
 <Card
   href="https://fsweb.no/studentweb/index.jsf?inst=FSNTNU"
-  title="Studentweb"
+  title={translations.cards.studentweb}
   id="studentweb"
 >
   <IconGraduationCap />
@@ -49,40 +56,40 @@ import ScheduleCard from './ScheduleCard.astro';
 
 <Card
   href="https://tp.educloud.no/ntnu/app/rombestilling/"
-  title="Book rom"
+  title={translations.cards.roomReservation}
   id="room_reservation"
 >
   <IconDoor />
 </Card>
 
-<Card href="http://use.mazemap.com/?campuses=ntnu" title="Campuskart" id="map">
+<Card href="http://use.mazemap.com/?campuses=ntnu" title={translations.cards.map} id="map">
   <IconMap />
 </Card>
 
-<Card href="https://myprint.ntnu.no/" title="Utskrift" id="printing"
+<Card href="https://myprint.ntnu.no/" title={translations.cards.printing} id="printing"
   ><IconPrinter />
 </Card>
 
 <Card
   href="https://www.ntnu.no/ub"
-  title="Litteratursøk"
+  title={translations.cards.literatureSearch}
   id="literature_search"
 >
   <IconBooks />
 </Card>
 
-<Card href="https://pdf.orakel.ntnu.no/" title="Rediger PDF" id="pdf">
+<Card href="https://pdf.orakel.ntnu.no/" title={translations.cards.pdf} id="pdf">
   <IconPdf />
 </Card>
 
 <Card
   href="https://www.ordnett.no/gyldendal/login/gyldendal"
-  title="Ordbøker"
+  title={translations.cards.dictionary}
   id="dictionary"
 >
   <IconLanguage />
 </Card>
 
-<Card href="https://www.sit.no/trening/booking" title="Trening" id="exercise">
+<Card href="https://www.sit.no/trening/booking" title={translations.cards.exercise} id="exercise">
   <IconDumbbell />
 </Card>

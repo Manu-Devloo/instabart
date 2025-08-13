@@ -3,7 +3,16 @@ import DialogOpen from '../components/dialog/DialogOpen.astro';
 import IconCog from '../components/icons/IconCog.astro';
 import IconInfo from '../components/icons/IconInfo.astro';
 import ThemePicker from '../components/ThemePicker.astro';
+import LanguagePicker from '../components/LanguagePicker.astro';
 import Wrap from '../components/Wrap.astro';
+import { getCurrentLanguage } from '../utils/i18n.ts';
+
+// Import translation files
+import noTranslations from '../locales/no.json';
+import enTranslations from '../locales/en.json';
+
+const currentLang = getCurrentLanguage();
+const translations = currentLang === 'en' ? enTranslations : noTranslations;
 ---
 
 <footer class="border-solid py-4 lg:mt-10 lg:border-t dark:border-slate-700">
@@ -11,15 +20,18 @@ import Wrap from '../components/Wrap.astro';
     <div
       class="items-left mx-auto flex w-[160px] flex-col sm:w-auto sm:flex-row sm:justify-center lg:justify-between"
     >
-      <ThemePicker />
+      <div class="flex flex-col sm:flex-row">
+        <ThemePicker />
+        <LanguagePicker />
+      </div>
       <div class="items-left flex flex-col sm:flex-row">
         <DialogOpen dialogId="schedule-settings" id="schedule-dialog-trigger">
           <IconCog />
-          Innstillinger
+          {translations.navigation.settings}
         </DialogOpen>
         <DialogOpen dialogId="about-dialog" id="about-dialog-trigger">
           <IconInfo />
-          Om Instabart
+          {translations.navigation.about}
         </DialogOpen>
       </div>
     </div>

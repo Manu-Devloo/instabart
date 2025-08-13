@@ -1,13 +1,21 @@
 ---
 import Card from '../components/card/Card.astro';
 import IconCalendar from '../components/icons/IconCalendar.astro';
+import { getCurrentLanguage } from '../utils/i18n.ts';
+
+// Import translation files
+import noTranslations from '../locales/no.json';
+import enTranslations from '../locales/en.json';
+
+const currentLang = getCurrentLanguage();
+const translations = currentLang === 'en' ? enTranslations : noTranslations;
 ---
 
 <Card
   href="https://ntnu.1024.no/"
   data-base-url="https://ntnu.1024.no/"
   data-event-id="schedule"
-  title="Timeplan"
+  title={translations.cards.schedule}
   id="schedule-card"
 >
   <IconCalendar />

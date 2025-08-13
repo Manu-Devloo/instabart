@@ -3,16 +3,24 @@ import ButtonFooter from './button/ButtonFooter.astro';
 // import IconComputer from './icons/IconComputer.astro';
 import IconMoon from './icons/IconMoon.astro';
 import IconSun from './icons/IconSun.astro';
+import { getCurrentLanguage } from '../utils/i18n.ts';
+
+// Import translation files
+import noTranslations from '../locales/no.json';
+import enTranslations from '../locales/en.json';
+
+const currentLang = getCurrentLanguage();
+const translations = currentLang === 'en' ? enTranslations : noTranslations;
 ---
 
 <ButtonFooter id="themeSelectDark" className="inline-flex dark:hidden">
   <IconMoon />
-  Mørkt
+  {translations.theme.dark}
 </ButtonFooter>
 
 <ButtonFooter id="themeSelectLight" className="hidden dark:inline-flex">
   <IconSun />
-  Lyst
+  {translations.theme.light}
 </ButtonFooter>
 
 <!-- <ButtonFooter id="themeSelectSystem">
