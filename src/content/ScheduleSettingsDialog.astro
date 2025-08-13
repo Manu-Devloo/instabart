@@ -2,68 +2,60 @@
 import ButtonPrimary from '../components/button/ButtonPrimary.astro';
 import ButtonSecondary from '../components/button/ButtonSecondary.astro';
 import Dialog from '../components/dialog/Dialog.astro';
+import IconCog from '../components/icons/IconCog.astro';
 import Input from '../components/Input.astro';
-import { getCurrentLanguage } from '../utils/i18n.ts';
-
-// Import translation files
-import noTranslations from '../locales/no.json';
-import enTranslations from '../locales/en.json';
-
-const currentLang = getCurrentLanguage();
-const translations = currentLang === 'en' ? enTranslations : noTranslations;
-
-// Helper function to replace placeholders in text
-function replacePlaceholders(text: string, replacements: Record<string, string>): string {
-  let result = text;
-  for (const [key, value] of Object.entries(replacements)) {
-    result = result.replace(`{${key}}`, value);
-  }
-  return result;
-}
 ---
 
 <Dialog id="schedule-settings">
   <h2 class="mt-1 text-2xl font-bold sm:mt-0 sm:text-3xl dark:text-slate-200">
-    {translations.schedule.dialog.title}
+    Husk kalendernavn?
   </h2>
 
   <hr class="-mx-5 mb-6 mt-4 sm:-mx-12 sm:mb-8 sm:mt-5 dark:border-slate-800" />
   <p class="mb-6 text-gray-500 dark:text-slate-300">
-    {translations.schedule.dialog.description}
+    Ved å huske kalendernavnet ditt tas du rett til din egen timeplan istedenfor
+    forsiden.
   </p>
   <form id="schedule-form">
-    <Input placeholder={translations.schedule.dialog.placeholder} class="mb-4" id="schedule-input" />
+    <Input placeholder="Kalendarnavn" class="mb-4" id="schedule-input" />
     <ButtonPrimary id="schedule-button-accept" class="mb-2" type="submit"
-      >{translations.schedule.dialog.accept}</ButtonPrimary
+      >Ja, gjerne!</ButtonPrimary
     >
   </form>
   <ButtonSecondary id="schedule-button-decline" type="button"
-    >{translations.schedule.dialog.decline}</ButtonSecondary
+    >Nei, ta meg til forsiden</ButtonSecondary
   >
 
   <p class="mt-6 text-xs text-gray-500 dark:text-slate-400">
-    <Fragment set:html={replacePlaceholders(translations.schedule.dialog.help, {
-      settingsIcon: `<span class="font-bold dark:text-slate-300"><svg class="inline size-[14px] stroke-gray-900 stroke-2 dark:stroke-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M12 1v6m0 6v6m11-7h-6m-6 0H1m18.36-11.66l-4.24 4.24M9.88 14.12l-4.24 4.24M22.36 22.66l-4.24-4.24M9.88 9.88L5.64 5.64"></path></svg> ${translations.navigation.settings}</span>`
-    })} />
+    Pssst! Om du skulle ombestemme deg kan du alltids endre valget ditt ved å
+    trykke på <span class="font-bold dark:text-slate-300"
+      ><IconCog
+        class="inline size-[14px] stroke-gray-900 stroke-2 dark:stroke-slate-300"
+      /> innstillinger</span
+    > nederst til høyre.
   </p>
 </Dialog>
 
-<script is:inline define:vars={{ validationMessage: translations.schedule.dialog.validation }}>
+<script>
   const form = document.getElementById('schedule-form');
   const declineButton = document.getElementById('schedule-button-decline');
-  const input = document.getElementById('schedule-input');
-  const dialog = document.getElementById('schedule-settings');
-  const scheduleCard = document.getElementById('schedule-card');
+  const input = document.getElementById('schedule-input') as HTMLInputElement;
+  const dialog = document.getElementById(
+    'schedule-settings',
+  ) as HTMLDialogElement;
+  const scheduleCard = document.getElementById(
+    'schedule-card',
+  ) as HTMLAnchorElement;
 
   const storedScheduleName = localStorage.scheduleName;
   if (storedScheduleName) {
     input.value = storedScheduleName;
   }
 
-  const onClick = (scheduleName) => {
+  const onClick = (scheduleName: string) => {
     localStorage.scheduleName = scheduleName;
 
-    const scheduleBaseUrl = scheduleCard.dataset.baseUrl;
+    const scheduleBaseUrl = scheduleCard.dataset.baseUrl as string;
     const newUrl = scheduleBaseUrl + scheduleName;
 
     scheduleCard.href = newUrl;
@@ -103,7 +95,7 @@ function replacePlaceholders(text: string, replacements: Record<string, string>)
       if (input.value) {
         onClick(input.value);
       } else {
-        input.setCustomValidity(validationMessage);
+        input.setCustomValidity('Fyll ut kalendernavn');
       }
     });
   }

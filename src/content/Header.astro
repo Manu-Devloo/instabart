@@ -1,13 +1,5 @@
 ---
 import Logo from '../components/icons/Logo.astro';
-import { getCurrentLanguage } from '../utils/i18n.ts';
-
-// Import translation files
-import noTranslations from '../locales/no.json';
-import enTranslations from '../locales/en.json';
-
-const currentLang = getCurrentLanguage();
-const translations = currentLang === 'en' ? enTranslations : noTranslations;
 ---
 
 <div
@@ -17,7 +9,7 @@ const translations = currentLang === 'en' ? enTranslations : noTranslations;
     className="relative h-12 w-12 sm:h-14 sm:w-14 md:top-[2px] md:h-[90px] md:w-[90px] dark:text-blue-200"
   />
   <div class="flex flex-col">
-    <h1 class="text-3xl font-bold sm:text-4xl md:text-5xl">{translations.site.title}</h1>
+    <h1 class="text-3xl font-bold sm:text-4xl md:text-5xl">Instabart</h1>
     <p
       id="tagline"
       class="hidden text-lg text-gray-500 md:block dark:dark:text-blue-100"
@@ -26,14 +18,24 @@ const translations = currentLang === 'en' ? enTranslations : noTranslations;
   </div>
 </div>
 
-<script is:inline define:vars={{ taglines: translations.site.taglines }}>
+<script is:inline>
   const getRandomTagline = () => {
-    const randomId = Math.floor(Math.random() * taglines.length);
+    const taglines = [
+      'Kjekke NTNU-tjenester. Umiddel<strong>bart</strong>',
+      'Favoritt blant bartebyens studenter siden 1917!',
+      'Hele NTNU samlet under én bart!',
+      'Dekker alle dine behov som NTNU-student... bortsett fra kaffe',
+      'La barten bane vei i NTNUs frodige IT-jungel!',
+      "NTNUs IT-tjenester? Gotta know 'em all!",
+      'Du och jag, NTNU. Du och jag...',
+      'Alle lenkene du trenger... og et par til',
+      'Bli itj fart utn bart!',
+    ];
+
+    var randomId = Math.floor(Math.random() * taglines.length);
     return taglines[randomId];
   };
 
   const taglineElem = document.getElementById('tagline');
-  if (taglineElem) {
-    taglineElem.innerHTML = getRandomTagline();
-  }
+  taglineElem.innerHTML = getRandomTagline();
 </script>
