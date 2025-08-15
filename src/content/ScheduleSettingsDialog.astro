@@ -52,11 +52,24 @@ import Input from '../components/Input.astro';
     input.value = storedScheduleName;
   }
 
-  const onClick = (scheduleName: string) => {
+
+  // Translitterer norske bokstaver til URL-vennlig format
+  function transliterateNorwegian(str : string | String) {
+    return str
+      .replace(/æ/g, 'ae')
+      .replace(/Æ/g, 'Ae')
+      .replace(/ø/g, 'o')
+      .replace(/Ø/g, 'O')
+      .replace(/å/g, 'aa')
+      .replace(/Å/g, 'Aa');
+  }
+
+  const onClick = (scheduleName: string | String) => {
     localStorage.scheduleName = scheduleName;
 
-    const scheduleBaseUrl = scheduleCard.dataset.baseUrl as string;
-    const newUrl = scheduleBaseUrl + scheduleName;
+    const scheduleBaseUrl = scheduleCard.dataset.baseUrl;
+    const safeName = transliterateNorwegian(scheduleName);
+    const newUrl = scheduleBaseUrl + safeName;
 
     scheduleCard.href = newUrl;
     dialog.close();
