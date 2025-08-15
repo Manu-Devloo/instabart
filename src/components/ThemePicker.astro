@@ -3,17 +3,26 @@ import ButtonFooter from './button/ButtonFooter.astro';
 // import IconComputer from './icons/IconComputer.astro';
 import IconMoon from './icons/IconMoon.astro';
 import IconSun from './icons/IconSun.astro';
+import { useTranslations, getLangFromUrl } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <ButtonFooter id="themeSelectDark" className="inline-flex dark:hidden">
   <IconMoon />
-  Mørkt
+  {t('theme.dark')}
 </ButtonFooter>
 
 <ButtonFooter id="themeSelectLight" className="hidden dark:inline-flex">
   <IconSun />
-  Lyst
+  {t('theme.light')}
 </ButtonFooter>
+
+<!-- <ButtonFooter id="themeSelectSystem">
+  <IconComputer />
+  {t('theme.system')}
+</ButtonFooter> -->
 
 <!-- <ButtonFooter id="themeSelectSystem">
   <IconComputer />

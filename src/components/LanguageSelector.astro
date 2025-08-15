@@ -1,0 +1,141 @@
+---
+import { languages, getLangFromUrl, getLocalizedUrl } from '../i18n/utils';
+import IconLanguage from './icons/IconLanguage.astro';
+
+const currentLang = getLangFromUrl(Astro.url);
+const currentPath = Astro.url.pathname;
+---
+
+<div class="relative" style="max-width: 195px;">
+  <button
+    id="language-selector"
+    class="flex items-center gap-1 rounded-md border border-gray-300 bg-white px-2 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
+    aria-expanded="false"
+    aria-haspopup="true"
+  >
+    <IconLanguage className="h-3 w-3" />
+    <span>{languages[currentLang]}</span>
+    <svg
+      class="h-3 w-3 transition-transform duration-200"
+      id="language-chevron"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+    </svg>
+  </button>
+
+  <div
+    id="language-dropdown"
+    class="absolute right-0 top-full z-50 mt-1 hidden w-36 origin-top-right rounded-md border border-gray-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border-gray-600 dark:bg-gray-800"
+    role="menu"
+    aria-orientation="vertical"
+    aria-labelledby="language-selector"
+  >
+    <div class="py-0" role="none">
+      {Object.entries(languages).map(([lang, name]) => (
+        <a
+          href={getLocalizedUrl(currentPath, lang as keyof typeof languages, currentLang)}
+          class={`block px-3 py-1.5 text-xs transition-colors duration-150 ${
+            lang === currentLang
+              ? 'bg-blue-50 text-blue-700 dark:bg-blue-900 dark:text-blue-200'
+              : 'text-gray-700 hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-700'
+          }`}
+          role="menuitem"
+          aria-current={lang === currentLang ? 'page' : undefined}
+        >
+          <div class="flex items-center justify-between">
+            <span>{name}</span>
+            {lang === currentLang && (
+              <svg class="h-3 w-3 text-blue-600 dark:text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+            )}
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</div>
+
+<script>
+  function setupLanguageSelector() {
+    const button = document.getElementById('language-selector');
+    const dropdown = document.getElementById('language-dropdown');
+    const chevron = document.getElementById('language-chevron');
+
+    if (!button || !dropdown || !chevron) return;
+
+    function toggleDropdown() {
+      if (!dropdown || !button || !chevron) return;
+      const isHidden = dropdown.classList.contains('hidden');
+      
+      if (isHidden) {
+        dropdown.classList.remove('hidden');
+        button.setAttribute('aria-expanded', 'true');
+        chevron.style.transform = 'rotate(180deg)';
+      } else {
+        dropdown.classList.add('hidden');
+        button.setAttribute('aria-expanded', 'false');
+        chevron.style.transform = 'rotate(0deg)';
+      }
+    }
+
+    function closeDropdown() {
+      if (!dropdown || !button || !chevron) return;
+      dropdown.classList.add('hidden');
+      button.setAttribute('aria-expanded', 'false');
+      chevron.style.transform = 'rotate(0deg)';
+    }
+
+    button.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleDropdown();
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!button.contains(e.target as Node) && !dropdown.contains(e.target as Node)) {
+        closeDropdown();
+      }
+    });
+
+    // Close dropdown on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeDropdown();
+      }
+    });
+
+    // Handle keyboard navigation
+    dropdown.addEventListener('keydown', (e) => {
+      const links = dropdown.querySelectorAll('a');
+      const currentIndex = Array.from(links).indexOf(document.activeElement as HTMLAnchorElement);
+
+      switch (e.key) {
+        case 'ArrowDown':
+          e.preventDefault();
+          const nextIndex = currentIndex < links.length - 1 ? currentIndex + 1 : 0;
+          (links[nextIndex] as HTMLAnchorElement).focus();
+          break;
+        case 'ArrowUp':
+          e.preventDefault();
+          const prevIndex = currentIndex > 0 ? currentIndex - 1 : links.length - 1;
+          (links[prevIndex] as HTMLAnchorElement).focus();
+          break;
+        case 'Enter':
+        case ' ':
+          e.preventDefault();
+          (document.activeElement as HTMLAnchorElement).click();
+          break;
+      }
+    });
+  }
+
+  // Setup on page load
+  document.addEventListener('DOMContentLoaded', setupLanguageSelector);
+  
+  // Setup after navigation (for SPA-like behavior)
+  document.addEventListener('astro:page-load', setupLanguageSelector);
+</script>

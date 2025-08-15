@@ -14,7 +14,7 @@
 
     function trackEvent(elementId, eventName, extras) {
       const elem = document.getElementById(elementId);
-      elem.addEventListener('click', (e) => {
+      elem.addEventListener('click', (_) => {
         captureEvent(eventName, extras);
       });
     }
